@@ -140,5 +140,14 @@
       }
     }
   },
-  "defaultProject": "mtg-cube-new"
+  "defaultProject": "mtg-cube-new",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss",
+      "changeDetection": "OnPush"
+    }
+  },
+  "cli": {
+    "defaultCollection": "@ngxs/schematics"
+  }
 }

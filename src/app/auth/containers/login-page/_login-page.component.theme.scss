@@ -1,0 +1,17 @@
+// Import all the tools needed to customize the theme and extract parts of it
+@import '~@angular/material/theming';
+
+// Define a mixin that accepts a theme and outputs the color styles for the component.
+@mixin login-page-component-theme($theme) {
+  // Extract whichever individual palettes you need from the theme.
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  app-login-page {
+    .google {
+      background-color: #0266C8;
+      color: whitesmoke;
+    }
+  }
+
+}

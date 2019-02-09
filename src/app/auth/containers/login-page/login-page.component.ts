@@ -25,7 +25,7 @@ export class LoginPageComponent {
   readonly pendingRequest$: Observable<'login' | 'logout' | null | undefined>;
 
   @Dispatch()
-  public loginGoogle = () => new AuthActions.Login(LoginType.GOOGLE)
+  public readonly loginGoogle = () => new AuthActions.Login(LoginType.GOOGLE)
 
   constructor(public readonly store: Store) { }
 

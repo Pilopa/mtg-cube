@@ -1,6 +1,8 @@
-import { User as FirebaseUser } from 'firebase';
+import { FirebaseError } from 'firebase/app';
 import { LoginType } from '../models/login-type.enum';
 import { LoginCredentialsModel } from '../models/login-credentials.model';
+import { AppError } from '@app/shared/models/error.model';
+import { User } from '@app/auth/models/user.model';
 
 export class Login {
   static readonly type = '[Auth] Login';
@@ -9,12 +11,12 @@ export class Login {
 
 export class LoginFailure {
   static readonly type = '[Auth] LoginFailure';
-  constructor(public readonly error: Error) {}
+  constructor(public readonly error: FirebaseError | AppError) {}
 }
 
 export class LoginSuccess {
   static readonly type = '[Auth] LoginSuccess';
-  constructor(public readonly user: FirebaseUser) {}
+  constructor(public readonly user: User | null) {}
 }
 
 export class UpdateAuthState {
@@ -23,11 +25,11 @@ export class UpdateAuthState {
 
 export class UpdateAuthStateFailure {
   static readonly type = '[Auth] UpdateAuthState Failure';
-  constructor(public readonly error: Error) {}
+  constructor(public readonly error: FirebaseError) {}
 }
 
 export class UpdateAuthStateSuccess {
   static readonly type = '[Auth] UpdateAuthState Success';
-  constructor(public readonly user: FirebaseUser | null) {}
+  constructor(public readonly user: User | null) {}
 }
 

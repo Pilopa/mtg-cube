@@ -14,7 +14,8 @@ import { AuthModule } from '@app/auth/auth.module';
     AuthModule
   ],
   exports: [
-    SharedModule
+    SharedModule,
+    AuthModule
   ]
 })
 export class CoreModule { }

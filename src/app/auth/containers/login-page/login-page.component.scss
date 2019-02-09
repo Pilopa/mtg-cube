@@ -6,7 +6,18 @@
   padding: 10px;
 
   mat-card {
-    min-width: 500px;
-    min-height: 300px;
+    min-width: 300px;
+    min-height: 200px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+
+    .login-form-container {
+      flex: 1 1 auto;
+
+      mat-divider {
+        position: relative;
+      }
+    }
   }
 }

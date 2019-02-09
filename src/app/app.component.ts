@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CubeCardModel } from '@app/shared/models/firebase/cubes/cube.model';
+import { CubeCardModel } from '@app/shared/models/firestore/cubes/cube.model';
 
 @Component({
   selector: 'app-root',

@@ -6,11 +6,18 @@
   // Extract whichever individual palettes you need from the theme.
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
 
   app-login-page {
+    background-color: mat-color($primary, 200);
+
     .google {
       background-color: #0266C8;
       color: whitesmoke;
+    }
+
+    .error {
+      color: mat-color($warn, 400);
     }
   }
 

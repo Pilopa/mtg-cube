@@ -1,15 +1,18 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { auth, User as FirebaseUser } from 'firebase/app';
+import { auth, User as FirebaseUser, FirebaseError } from 'firebase/app';
 import { from } from 'rxjs';
 import { catchError, delay, map, retryWhen } from 'rxjs/operators';
 import { LoginType } from '../models/login-type.enum';
 import * as AuthActions from './auth.state.actions';
+import { AppError } from '@app/shared/models/error.model';
+import { User } from '@app/auth/models/user.model';
+import { transformFirebaseUser } from '../utils/transform-firebase-user';
 
 export class AuthStateModel {
-  public activeUser: FirebaseUser | null | undefined;
-  public error: Error | null | undefined;
-  public authUpdateError: Error | null | undefined;
+  public activeUser: User | null | undefined;
+  public error: AppError | FirebaseError | null | undefined;
+  public authUpdateError: AppError | FirebaseError | null | undefined;
   public pending: 'login' | 'logout' | null | undefined;
 }
 
@@ -47,6 +50,7 @@ export class AuthState implements NgxsOnInit {
   public login({ dispatch, patchState }: StateContext<AuthStateModel>, { loginType, credentials }: AuthActions.Login) {
     // Reset Error State
     patchState({
+      pending: 'login',
       error: null
     });
 
@@ -57,24 +61,46 @@ export class AuthState implements NgxsOnInit {
         authProvider = new auth.GoogleAuthProvider();
         break;
       default:
-        return dispatch(new AuthActions.LoginFailure(new Error('Unkown login method')));
+        return dispatch(new AuthActions.LoginFailure({
+          code: 'auth/unknown-login-method',
+          message: 'Unknown login method'
+        }));
     }
 
     // Perform Login
     return from(this.afAuth.auth.signInWithPopup(authProvider)).pipe(
       map(userCredentials => userCredentials.user),
       map(user => user ?
-        new AuthActions.LoginSuccess(user) :
-        new AuthActions.LoginFailure(new Error('Guest login disabled'))
+        new AuthActions.LoginSuccess(transformFirebaseUser(user)) :
+        new AuthActions.LoginFailure({
+          code: 'auth/no-guest-login',
+          message: 'Guest login disabled'
+        })
       ),
       catchError(error => dispatch(new AuthActions.LoginFailure(error)))
     );
   }
 
+  @Action(AuthActions.LoginSuccess)
+  public loginSuccess({ patchState }: StateContext<AuthStateModel>, { user }: AuthActions.LoginSuccess) {
+    patchState({
+      activeUser: user,
+      pending: null
+    });
+  }
+
+  @Action(AuthActions.LoginFailure)
+  public loginFailure({ patchState }: StateContext<AuthStateModel>, { error }: AuthActions.LoginFailure) {
+    patchState({
+      error: error,
+      pending: null
+    });
+  }
+
   @Action(AuthActions.UpdateAuthState, { cancelUncompleted: true })
   public updateAuthState({ dispatch }: StateContext<AuthStateModel>) {
     return this.afAuth.authState.pipe(
-      map(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(activeUser))),
+      map(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(transformFirebaseUser(activeUser)))),
       retryWhen(errors => errors.pipe(delay(5000)))
     );
   }

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { CubeCardModel } from '@app/shared/models/firebase/cubes/cube.model';
+import { CubeCardModel } from '@app/shared/models/firestore/cubes/cube.model';
 
 @Component({
   selector: 'app-card-grid',

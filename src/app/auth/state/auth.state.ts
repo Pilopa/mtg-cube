@@ -1,8 +1,8 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { auth, User as FirebaseUser, FirebaseError } from 'firebase/app';
-import { from } from 'rxjs';
-import { catchError, delay, map, retryWhen } from 'rxjs/operators';
+import { auth, FirebaseError } from 'firebase/app';
+import { from, merge } from 'rxjs';
+import { catchError, delay, map, retryWhen, tap, mergeMap } from 'rxjs/operators';
 import { LoginType } from '../models/login-type.enum';
 import * as AuthActions from './auth.state.actions';
 import { AppError } from '@app/shared/models/error.model';
@@ -61,21 +61,21 @@ export class AuthState implements NgxsOnInit {
         authProvider = new auth.GoogleAuthProvider();
         break;
       default:
-        return dispatch(new AuthActions.LoginFailure({
+        return new AuthActions.LoginFailure({
           code: 'auth/unknown-login-method',
           message: 'Unknown login method'
-        }));
+        });
     }
 
     // Perform Login
     return from(this.afAuth.auth.signInWithPopup(authProvider)).pipe(
       map(userCredentials => userCredentials.user),
-      map(user => user ?
+      mergeMap(user => dispatch(user ?
         new AuthActions.LoginSuccess(transformFirebaseUser(user)) :
         new AuthActions.LoginFailure({
           code: 'auth/no-guest-login',
           message: 'Guest login disabled'
-        })
+        }))
       ),
       catchError(error => dispatch(new AuthActions.LoginFailure(error)))
     );
@@ -100,7 +100,7 @@ export class AuthState implements NgxsOnInit {
   @Action(AuthActions.UpdateAuthState, { cancelUncompleted: true })
   public updateAuthState({ dispatch }: StateContext<AuthStateModel>) {
     return this.afAuth.authState.pipe(
-      map(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(transformFirebaseUser(activeUser)))),
+      mergeMap(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(transformFirebaseUser(activeUser)))),
       retryWhen(errors => errors.pipe(delay(5000)))
     );
   }
@@ -117,6 +117,35 @@ export class AuthState implements NgxsOnInit {
   public updateAuthStateFailure({ patchState }: StateContext<AuthStateModel>, { error }: AuthActions.UpdateAuthStateFailure) {
     patchState({
       authUpdateError: error
+    });
+  }
+
+  @Action(AuthActions.Logout, { cancelUncompleted: true })
+  public logout({ dispatch, patchState }: StateContext<AuthStateModel>, { }: AuthActions.Logout) {
+    patchState({
+      pending: 'logout',
+      error: null
+    });
+
+    return from(this.afAuth.auth.signOut()).pipe(
+      mergeMap(_ => dispatch(new AuthActions.LogoutSuccess())),
+      catchError(error => dispatch(new AuthActions.LogoutFailure(error)))
+    );
+  }
+
+  @Action(AuthActions.LogoutSuccess)
+  public logoutSuccess({ patchState }: StateContext<AuthStateModel>, { }: AuthActions.LogoutSuccess) {
+    patchState({
+      activeUser: null,
+      pending: null
+    });
+  }
+
+  @Action(AuthActions.LogoutFailure)
+  public logoutFailure({ patchState }: StateContext<AuthStateModel>, { error }: AuthActions.LogoutFailure) {
+    patchState({
+      error: error,
+      pending: null
     });
   }
 

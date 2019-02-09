@@ -7,7 +7,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginPageComponent } from './containers/login-page/login-page.component';
 import { AuthState } from './state/auth.state';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '@app/shared/shared.module';
 
 
@@ -19,7 +18,6 @@ import { SharedModule } from '@app/shared/shared.module';
     AuthRoutingModule,
     AngularFireAuthModule,
     SharedModule,
-    TranslateModule.forChild(),
     NgxsModule.forFeature([AuthState]),
     MatCardModule,
     MatIconModule,

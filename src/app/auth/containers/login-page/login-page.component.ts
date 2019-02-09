@@ -27,6 +27,9 @@ export class LoginPageComponent {
   @Dispatch()
   public readonly loginGoogle = () => new AuthActions.Login(LoginType.GOOGLE)
 
+  @Dispatch()
+  public readonly logout = () => new AuthActions.Logout()
+
   constructor(public readonly store: Store) { }
 
 }

@@ -33,6 +33,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule,
     TranslateModule.forRoot({
@@ -42,8 +43,6 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    AngularFireModule.initializeApp(environment.firebase, environment.firebase.projectId),
-    AngularFirestoreModule.enablePersistence(),
     NgxsModule.forRoot([], { developmentMode: !environment.production }),
     NgxsStoragePluginModule.forRoot({
       key: []
@@ -53,8 +52,10 @@ export function createTranslateLoader(http: HttpClient) {
     NgxsDispatchPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
     NgxsLoggerPluginModule.forRoot({ disabled: environment.production }),
+    AngularFireModule.initializeApp(environment.firebase, environment.firebase.projectId),
+    AngularFirestoreModule.enablePersistence(),
     CoreModule,
-    HttpClientModule
+
   ],
   providers: [
     {

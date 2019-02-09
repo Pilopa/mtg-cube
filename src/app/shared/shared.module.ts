@@ -5,6 +5,8 @@ import { MatGridListModule } from '@angular/material';
 import { CardGridComponent } from './components/card-grid/card-grid.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ErrorKeyPipe } from './pipes/error-key.pipe';
+import { NgxsModule } from '@ngxs/store';
+import { LayoutState } from './state/layout/layout.state';
 
 @NgModule({
   declarations: [ CardGridComponent, ErrorKeyPipe ],
@@ -16,7 +18,8 @@ import { ErrorKeyPipe } from './pipes/error-key.pipe';
   imports: [
     CommonModule,
     ScrollingModule,
-    MatGridListModule
+    MatGridListModule,
+    NgxsModule.forFeature([LayoutState])
   ]
 })
 export class SharedModule { }

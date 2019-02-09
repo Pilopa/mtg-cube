@@ -4,6 +4,19 @@ import { LoginCredentialsModel } from '../models/login-credentials.model';
 import { AppError } from '@app/shared/models/error.model';
 import { User } from '@app/auth/models/user.model';
 
+export class Logout {
+  static readonly type = '[Auth] Logout]';
+}
+
+export class LogoutSuccess {
+  static readonly type = '[Auth] LogoutSuccess]';
+}
+
+export class LogoutFailure {
+  static readonly type = '[Auth] LogoutFailure]';
+  constructor(public readonly error: FirebaseError) {}
+}
+
 export class Login {
   static readonly type = '[Auth] Login';
   constructor(public readonly loginType: LoginType, public readonly credentials?: LoginCredentialsModel) {}

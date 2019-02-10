@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.0.3"></a>
+## [0.0.3](https://bitbucket.org/Pilopa/mtg-cube-new/compare/v0.0.2...v0.0.3) (2019-02-10)
+
+
+### Bug Fixes
+
+* center page content if not overflowing ([2e17503](https://bitbucket.org/Pilopa/mtg-cube-new/commits/2e17503))
+* content positioning in page container ([8c8016c](https://bitbucket.org/Pilopa/mtg-cube-new/commits/8c8016c))
+* improve page layout and scrolling behaviour ([b273173](https://bitbucket.org/Pilopa/mtg-cube-new/commits/b273173))
+
+
+
 <a name="0.0.2"></a>
 ## [0.0.2](https://bitbucket.org/Pilopa/mtg-cube-new/compare/v0.0.1...v0.0.2) (2019-02-10)
 

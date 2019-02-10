@@ -1,6 +1,6 @@
 {
   "name": "mtg-cube-new",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "ng": "ng",
     "start": "http-server -p 8080 -c-1 dist/mtg-cube-new",

@@ -6,13 +6,12 @@
 
   mat-sidenav-container {
     flex: 1;
-    display: flex;
-    flex-direction: column;
 
     mat-sidenav-content {
 
       flex: 1;
       display: flex;
+      flex-direction: column;
       width: 100%;
 
       mat-toolbar {
@@ -31,6 +30,7 @@
 
   &.small {
     mat-sidenav-container {
+      flex: 1 0 auto;
 
       mat-sidenav-content {
 
@@ -47,7 +47,6 @@
   &.medium, &.large {
     mat-sidenav-content {
       position: absolute;
-      display: flex;
       flex-direction: column;
 
       .page-content-wrapper {

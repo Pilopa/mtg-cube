@@ -1,6 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { CubeCardModel } from '@app/shared/models/firestore/cubes/cube.model';
 
 @Component({
   selector: 'app-root',
@@ -10,18 +8,6 @@ import { CubeCardModel } from '@app/shared/models/firestore/cubes/cube.model';
 })
 export class AppComponent {
 
-  cards = new BehaviorSubject<CubeCardModel[]>([]);
-
-  constructor() {
-    const cards: CubeCardModel[] = [];
-
-    for (let i = 0; i < 1000; i++) {
-      cards.push({
-        id: `C${Math.random() * 1000}`
-      });
-    }
-
-    this.cards.next(cards);
-  }
+  constructor() { }
 
 }

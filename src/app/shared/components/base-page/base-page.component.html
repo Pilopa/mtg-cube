@@ -1,0 +1,36 @@
+<mat-sidenav-container (backdropClick)="hideNav()">
+  <mat-sidenav
+    [opened]="isSideNavOpen$ | async" [mode]="sidenavMode$ | async" [fixedInViewport]="isSmall$ | async"
+    (keydown.escape)="hideNav()" disableClose>
+    <mat-nav-list>
+      <a mat-list-item> Link A </a>
+      <a mat-list-item> Link B </a>
+      <a mat-list-item> Link C </a>
+      <a mat-list-item> Link D </a>
+      <a mat-list-item> Link E </a>
+      <a mat-list-item> Link F </a>
+      <a mat-list-item> Link G </a>
+      <a mat-list-item> Link H </a>
+      <a mat-list-item> Link I </a>
+      <a mat-list-item> Link J </a>
+      <a mat-list-item> Link K </a>
+      <a mat-list-item> Link L </a>
+      <a mat-list-item> Link M </a>
+      <a mat-list-item> Link N </a>
+      <a mat-list-item> Link O </a>
+      <a mat-list-item> Link P </a>
+      <a mat-list-item> Link Q </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav position="end">
+    Complimentary content
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button *ngIf="!(isSideNavOpen$ | async)" mat-icon-button (click)="showNav()"><mat-icon>menu</mat-icon></button>
+    </mat-toolbar>
+    <div class="page-content-wrapper">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

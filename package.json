@@ -12,7 +12,8 @@
     "e2e": "ng e2e",
     "ngcc": "./node_modules/.bin/ivy-ngcc",
     "release": "standard-version",
-    "initial-release": "standard-version --first-release"
+    "initial-release": "standard-version --first-release",
+    "deploy": "firebase deploy --only hosting"
   },
   "private": true,
   "dependencies": {

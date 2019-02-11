@@ -10,18 +10,18 @@
 
   app-base-page {
 
-    a.active-link {
-      background-color: mat-color($primary, darker);
-      color: mat-color($primary, darker-contrast);
-    }
-
-    a:hover {
-      background-color: mat-color($primary, default);
-      color: mat-color($primary, default-contrast);
-    }
-
     .page-content-wrapper, mat-sidenav.navigation-container {
       background-color: mat-color($primary, 50);
+
+      a.active-link {
+        background-color: mat-color($primary, darker);
+        color: mat-color($primary, darker-contrast);
+      }
+
+      a:hover, a:focus {
+        background-color: mat-color($primary, default) !important;
+        color: mat-color($primary, default-contrast) !important;
+      }
     }
 
   }

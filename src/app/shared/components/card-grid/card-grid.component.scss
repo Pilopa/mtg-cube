@@ -1,9 +1,7 @@
-.container {
-  width: 100vw;
-  height: 100vh;
+.card {
+  background-color: lightgray;
 }
 
-.card {
-  height: 50px;
-  background-color: lightgray;
+:host {
+  width: 100%;
 }

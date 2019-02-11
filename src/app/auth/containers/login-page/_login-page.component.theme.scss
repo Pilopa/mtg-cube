@@ -9,8 +9,6 @@
   $warn: map-get($theme, warn);
 
   app-login-page {
-    background-color: mat-color($primary, 50);
-
     .google {
       background-color: #0266C8;
       color: whitesmoke;

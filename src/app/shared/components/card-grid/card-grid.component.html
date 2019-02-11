@@ -1,7 +1,5 @@
-<!-- <cdk-virtual-scroll-viewport class="container"> -->
-  <mat-grid-list cols=3 rowHeight="63:88">
-    <mat-grid-tile *ngFor="let card of cards" class="card">
-        {{card | json}}
-    </mat-grid-tile>
-  </mat-grid-list>
-<!-- </cdk-virtual-scroll-viewport> -->
+<mat-grid-list [cols]="columnCount$ | async" [gutterSize]="gutterSize$ | async" rowHeight="63:88">
+  <mat-grid-tile *ngFor="let card of cards" class="card">
+    {{card | json}}
+  </mat-grid-tile>
+</mat-grid-list>

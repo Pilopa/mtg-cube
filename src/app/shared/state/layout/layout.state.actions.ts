@@ -9,3 +9,7 @@ export class SetNavVisible {
   static readonly type = '[Layout] SetNavVisible]';
   constructor(public readonly flag: boolean) {}
 }
+
+export class ResetPageLayout {
+  static readonly type = '[Layout] ResetPageLayout]';
+}

@@ -1,3 +1,5 @@
+@import '../../../../constants';
+
 :host {
 
   flex: 1;
@@ -9,16 +11,28 @@
     display: flex;
     flex-direction: column;
 
+    mat-sidenav.navigation-container {
+      min-width: 225px;
+    }
+
     mat-sidenav-content {
 
       flex: 1;
       display: flex;
       flex-direction: column;
-      width: 100%;
 
       mat-toolbar {
+        justify-content: center;
         position: fixed;
         z-index: 2;
+
+        .toolbar-content-wrapper {
+          width: 100%;
+          max-width: $MAX_CONTENT_WIDTH;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
       }
 
       .page-content-wrapper {
@@ -26,11 +40,13 @@
         flex: 1;
         display: flex;
         flex-direction: column;
+        align-items: center;
 
         /deep/ router-outlet + * {
           flex: 1 0 auto;
           display: flex;
           flex-direction: column;
+          max-width: $MAX_CONTENT_WIDTH;
         }
       }
 
@@ -38,29 +54,35 @@
 
   }
 
-  &.small {
-    mat-sidenav-container {
-      flex: 1 0 auto;
+  &.small mat-sidenav-container {
+    flex: 1 0 auto;
 
-      mat-sidenav-content {
-
-        .page-content-wrapper {
-          margin-top: 56px;
-        }
-
-      }
-
+    mat-sidenav-content .page-content-wrapper {
+      margin-top: 56px;
     }
-
   }
 
   &.medium, &.large {
-    mat-sidenav-content {
-      position: absolute;
+    mat-sidenav-content .page-content-wrapper {
+      overflow: auto;
+    }
+  }
 
-      .page-content-wrapper {
-        overflow: auto;
-      }
+  &.small {
+    mat-toolbar, .page-content-wrapper {
+      padding: 0 4px;
+    }
+  }
+
+  &.medium {
+    mat-toolbar, .page-content-wrapper {
+      padding: 0 16px;
+    }
+  }
+
+  &.large {
+    mat-toolbar, .page-content-wrapper {
+      padding: 0 24px;
     }
   }
 

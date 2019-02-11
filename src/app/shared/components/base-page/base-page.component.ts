@@ -6,6 +6,8 @@ import { Observable, Subject, combineLatest as CombineLatest } from 'rxjs';
 import { map, takeUntil, combineLatest } from 'rxjs/operators';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
+import { NavSection } from '@app/shared/models/nav-item.model';
+import { ScrollDispatcher } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-base-page',
@@ -31,6 +33,9 @@ export class BasePageComponent implements OnInit, OnDestroy {
   @Select(LayoutState.isNavVisible)
   isNavVisible$: Observable<boolean>;
 
+  @Select(LayoutState.getNavSections)
+  navSections$: Observable<NavSection[]>;
+
   readonly sidenavMode$ = this.layoutSize$.pipe(
     map(size => size === LayoutSize.LARGE ? 'side' : 'over')
   );
@@ -47,7 +52,8 @@ export class BasePageComponent implements OnInit, OnDestroy {
   @Dispatch()
   hideNav = () => new LayoutActions.SetNavVisible(false)
 
-  constructor(private readonly change: ChangeDetectorRef) { }
+  constructor(private readonly change: ChangeDetectorRef,
+              private readonly scrollDispatcher: ScrollDispatcher) { }
 
   ngOnInit() {
     this.layoutSize$.pipe(
@@ -75,6 +81,21 @@ export class BasePageComponent implements OnInit, OnDestroy {
           this.isLarge = false;
       }
       this.change.markForCheck();
+    });
+
+    let prevScrollOffset = 0;
+    this.scrollDispatcher.scrolled().pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(scrollable => {
+      if (scrollable) {
+        const currentScrollPos = scrollable.measureScrollOffset('top');
+        if (prevScrollOffset > currentScrollPos) {
+          // TODO: Show toolbar
+        } else {
+          // TODO: Hide toolbar
+        }
+        prevScrollOffset = currentScrollPos;
+      }
     });
   }
 

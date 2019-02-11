@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { LayoutState } from './state/layout/layout.state';
 import { BasePageComponent } from './components/base-page/base-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ CardGridComponent, ErrorKeyPipe, BasePageComponent ],
@@ -23,6 +24,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NgxsModule.forFeature([LayoutState]),
     ScrollingModule,
     FlexLayoutModule,
+    RouterModule,
     MatGridListModule,
     MatIconModule,
     MatButtonModule,

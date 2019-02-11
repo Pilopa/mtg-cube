@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { AuthState } from '../../state/auth.state';
 import { User as FirebaseUser } from 'firebase/app';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import * as AuthActions from '@app/auth/state/auth.state.actions';
 import { LoginType } from '../../models/login-type.enum';
+import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +14,9 @@ import { LoginType } from '../../models/login-type.enum';
   styleUrls: ['./login-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnDestroy, OnInit {
+
+  @ViewChild('toolbarContent') toolbarTemplate: TemplateRef<any>;
 
   @Select(AuthState.getActiveUser)
   readonly activeUser$: Observable<FirebaseUser | null | undefined>;
@@ -31,5 +34,13 @@ export class LoginPageComponent {
   public readonly logout = () => new AuthActions.Logout()
 
   constructor(public readonly store: Store) { }
+
+  ngOnInit(): void {
+    this.store.dispatch(new LayoutActions.SetToolbarTemplate(this.toolbarTemplate));
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new LayoutActions.ResetPageLayout());
+  }
 
 }

@@ -17,11 +17,13 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav position="end">
+    <ng-container *ngTemplateOutlet="sideContentTemplate$ | async"></ng-container>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <div class="toolbar-content-wrapper">
         <button *ngIf="!(isSideNavOpen$ | async)" mat-icon-button (click)="showNav()"><mat-icon>menu</mat-icon></button>
+        <ng-container *ngTemplateOutlet="toolbarTemplate$ | async"></ng-container>
       </div>
     </mat-toolbar>
     <div class="page-content-wrapper">

@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostBinding, OnDestroy, ChangeDetectorRef, TemplateRef } from '@angular/core';
 import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { Select } from '@ngxs/store';
 import { Observable, Subject, combineLatest as CombineLatest } from 'rxjs';
-import { map, takeUntil, combineLatest } from 'rxjs/operators';
+import { map, takeUntil, combineLatest, first } from 'rxjs/operators';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
 import { NavSection } from '@app/shared/models/nav-item.model';
@@ -35,6 +35,12 @@ export class BasePageComponent implements OnInit, OnDestroy {
 
   @Select(LayoutState.getNavSections)
   navSections$: Observable<NavSection[]>;
+
+  @Select(LayoutState.getToolbarTemplate)
+  toolbarTemplate$: Observable<TemplateRef<any>>;
+
+  @Select(LayoutState.getSideContentTemplate)
+  sideContentTemplate$: Observable<TemplateRef<any>>;
 
   readonly sidenavMode$ = this.layoutSize$.pipe(
     map(size => size === LayoutSize.LARGE ? 'side' : 'over')

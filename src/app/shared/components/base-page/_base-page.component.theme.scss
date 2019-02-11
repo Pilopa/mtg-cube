@@ -7,20 +7,30 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
   $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
 
   app-base-page {
 
     .page-content-wrapper, mat-sidenav.navigation-container {
       background-color: mat-color($primary, 50);
 
-      a.active-link {
-        background-color: mat-color($primary, darker);
-        color: mat-color($primary, darker-contrast);
-      }
+      mat-nav-list {
 
-      a:hover, a:focus {
-        background-color: mat-color($primary, default) !important;
-        color: mat-color($primary, default-contrast) !important;
+        a.mat-list-item.active-link {
+          background-color: mat-color($primary, darker) !important;
+          color: mat-color($primary, darker-contrast) !important;
+        }
+
+        a.mat-list-item:hover {
+          background-color: mat-color($primary, default) !important;
+          color: mat-color($primary, default-contrast) !important;
+        }
+
+        a.mat-list-item:focus {
+          background-color: rgba(white, 0);
+          color: mat-color($foreground, base);
+        }
+
       }
     }
 

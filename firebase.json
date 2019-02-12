@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/mtg-cube-new",
+    "public": "dist/mtg-cube",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -3,7 +3,7 @@ import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { Select } from '@ngxs/store';
 import { Observable, Subject, combineLatest as CombineLatest } from 'rxjs';
-import { map, takeUntil, combineLatest, first } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { Dispatch } from '@ngxs-labs/dispatch-decorator';
 import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
 import { NavSection } from '@app/shared/models/nav-item.model';

@@ -1,6 +1,6 @@
 {
-  "name": "mtg-cube-new",
-  "short_name": "mtg-cube-new",
+  "name": "mtg-cube",
+  "short_name": "mtg-cube",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",

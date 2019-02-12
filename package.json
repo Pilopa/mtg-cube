@@ -1,12 +1,12 @@
 {
-  "name": "mtg-cube-new",
+  "name": "mtg-cube",
   "version": "0.0.3",
   "scripts": {
     "ng": "ng",
-    "start": "http-server -p 8080 -c-1 dist/mtg-cube-new",
+    "start": "http-server -p 8080 -c-1 dist/mtg-cube",
     "build": "ng build --prod",
     "build-stats": "ng build --prod --stats-json",
-    "bundle-report": "webpack-bundle-analyzer dist//mtg-cube-new/stats.json",
+    "bundle-report": "webpack-bundle-analyzer dist//mtg-cube/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

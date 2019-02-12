@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "mtg-cube-new": {
+    "mtg-cube": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -18,7 +18,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/mtg-cube-new",
+            "outputPath": "dist/mtg-cube",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mtg-cube-new:build"
+            "browserTarget": "mtg-cube:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mtg-cube-new:build:production"
+              "browserTarget": "mtg-cube:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mtg-cube-new:build"
+            "browserTarget": "mtg-cube:build"
           }
         },
         "test": {
@@ -111,7 +111,7 @@
         }
       }
     },
-    "mtg-cube-new-e2e": {
+    "mtg-cube-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -120,11 +120,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "mtg-cube-new:serve"
+            "devServerTarget": "mtg-cube:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "mtg-cube-new:serve:production"
+              "devServerTarget": "mtg-cube:serve:production"
             }
           }
         },
@@ -140,7 +140,7 @@
       }
     }
   },
-  "defaultProject": "mtg-cube-new",
+  "defaultProject": "mtg-cube",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss",

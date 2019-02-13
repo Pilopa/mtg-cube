@@ -54,8 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
     NgxsLoggerPluginModule.forRoot({ disabled: environment.production }),
     AngularFireModule.initializeApp(environment.firebase, environment.firebase.projectId),
     AngularFirestoreModule.enablePersistence(),
-    CoreModule,
-
+    CoreModule
   ],
   providers: [
     {

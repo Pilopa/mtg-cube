@@ -2,20 +2,20 @@
   "name": "mtg-cube",
   "version": "0.0.3",
   "scripts": {
-    "ng": "ng",
+    "ng": "./node_modules/.bin/ng",
     "start": "http-server -p 8080 -c-1 dist/mtg-cube",
     "build": "ng build --prod",
     "build-stats": "ng build --prod --stats-json",
-    "bundle-report": "webpack-bundle-analyzer dist//mtg-cube/stats.json",
+    "bundle-report": "webpack-bundle-analyzer dist/mtg-cube/stats.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "ngcc": "./node_modules/.bin/ivy-ngcc",
-    "release": "standard-version",
-    "initial-release": "standard-version --first-release",
-    "deploy": "firebase deploy --only hosting"
+    "release": "./node_modules/.bin/standard-version",
+    "initial-release": "./node_modules/.bin/standard-version --first-release",
+    "deploy": "./node_modules/.bin/firebase deploy"
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "^8.0.0-beta.2",
     "@angular/cdk": "^7.3.0",

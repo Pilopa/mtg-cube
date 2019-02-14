@@ -16,8 +16,6 @@ import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
 })
 export class LoginPageComponent implements OnDestroy, OnInit {
 
-  @ViewChild('toolbarContent') toolbarTemplate: TemplateRef<any>;
-
   @Select(AuthState.getActiveUser)
   readonly activeUser$: Observable<FirebaseUser | null | undefined>;
 
@@ -35,9 +33,7 @@ export class LoginPageComponent implements OnDestroy, OnInit {
 
   constructor(public readonly store: Store) { }
 
-  ngOnInit(): void {
-    this.store.dispatch(new LayoutActions.SetToolbarTemplate(this.toolbarTemplate));
-  }
+  ngOnInit(): void {  }
 
   ngOnDestroy(): void {
     this.store.dispatch(new LayoutActions.ResetPageLayout());

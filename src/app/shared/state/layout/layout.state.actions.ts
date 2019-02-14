@@ -14,13 +14,3 @@ export class SetNavVisible {
 export class ResetPageLayout {
   static readonly type = '[Layout] ResetPageLayout';
 }
-
-export class SetToolbarTemplate {
-  static readonly type = '[Layout] SetToolbarTemplate';
-  constructor(public readonly template?: TemplateRef<any>) {}
-}
-
-export class SetSideContentTemplate {
-  static readonly type = '[Layout] SetSideContentTemplate';
-  constructor(public readonly template?: TemplateRef<any>) {}
-}

@@ -5,16 +5,12 @@ import { LayoutSize } from '@app/shared/models/layout-size.model';
 import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
 import { createSelector } from '@ngxs/store';
 import { NavSection } from '@app/shared/models/nav-item.model';
-import { TemplateRef } from '@angular/core';
-import { clone } from 'lodash-es';
 
 export interface LayoutStateModel {
   size: LayoutSize;
   navVisible: boolean;
   toolbarVisible: boolean;
   sideContentVisible: boolean;
-  toolbarTemplate: TemplateRef<any> | undefined | null;
-  sideContentTemplate: TemplateRef<any> | undefined | null;
   baseNavSections: NavSection[];
   pageNavSections: NavSection[];
 }
@@ -27,12 +23,12 @@ export const DEFAULT_NAVIGATION_SECTIONS: NavSection[] = [
       {
         label: 'Login',
         icon: 'account_box',
-        path: 'login'
+        path: '/login'
       },
       {
         label: 'Responsive Card List',
         icon: 'view_module',
-        path: 'test'
+        path: '/test'
       }
     ]
   }
@@ -44,9 +40,7 @@ export const DEFAULT_NAVIGATION_SECTIONS: NavSection[] = [
       size: LayoutSize.MEDIUM,
       navVisible: false,
       toolbarVisible: true,
-      toolbarTemplate: undefined,
       sideContentVisible: false,
-      sideContentTemplate: undefined,
       baseNavSections: DEFAULT_NAVIGATION_SECTIONS,
       pageNavSections: []
     }
@@ -60,10 +54,7 @@ export class LayoutState implements NgxsOnInit {
   static isNavVisible(state: LayoutStateModel) { return state.navVisible; }
 
   @Selector()
-  static getToolbarTemplate(state: LayoutStateModel) { return state.toolbarTemplate; }
-
-  @Selector()
-  static getSideContentTemplate(state: LayoutStateModel) { return state.sideContentTemplate; }
+  static isSideContentVisible(state: LayoutStateModel) { return state.sideContentVisible; }
 
   @Selector()
   static getNavSections(state: LayoutStateModel) {
@@ -97,27 +88,11 @@ export class LayoutState implements NgxsOnInit {
     });
   }
 
-  @Action(LayoutActions.SetToolbarTemplate)
-  setToolbarTemplate({ patchState }: StateContext<LayoutStateModel>, { template }: LayoutActions.SetToolbarTemplate) {
-    patchState({
-      toolbarTemplate: template
-    });
-  }
-
-  @Action(LayoutActions.SetSideContentTemplate)
-  setSideContentTemplate({ patchState }: StateContext<LayoutStateModel>, { template }: LayoutActions.SetSideContentTemplate) {
-    patchState({
-      sideContentTemplate: template
-    });
-  }
-
   @Action(LayoutActions.ResetPageLayout)
   resetPageLayout({ patchState }: StateContext<LayoutStateModel>, {}: LayoutActions.ResetPageLayout) {
     patchState({
       toolbarVisible: true,
-      toolbarTemplate: null,
       sideContentVisible: false,
-      sideContentTemplate: null,
       pageNavSections: []
     });
   }

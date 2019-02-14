@@ -35,18 +35,24 @@
         }
       }
 
-      .page-content-wrapper {
+      .page-content-viewport {
         margin-top: 64px;
         flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
+      }
 
-        /deep/ router-outlet + * {
-          flex: 1 0 auto;
-          display: flex;
-          flex-direction: column;
-          max-width: $MAX_CONTENT_WIDTH;
+      .page-content-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: $MAX_CONTENT_WIDTH;
+
+        &.centered {
+          justify-content: center;
         }
       }
 
@@ -54,34 +60,34 @@
 
   }
 
-  &.small mat-sidenav-container {
-    flex: 1 0 auto;
-
-    mat-sidenav-content .page-content-wrapper {
-      margin-top: 56px;
-    }
-  }
-
-  &.medium, &.large {
-    mat-sidenav-content .page-content-wrapper {
-      overflow: auto;
-    }
-  }
-
   &.small {
-    mat-toolbar, .page-content-wrapper {
+    mat-toolbar, .page-content-viewport {
       padding: 0 4px;
+    }
+
+    mat-sidenav-container {
+      flex: 1 0 auto;
+
+      mat-sidenav-content .page-content-viewport {
+        margin-top: 56px;
+      }
     }
   }
 
   &.medium {
-    mat-toolbar, .page-content-wrapper {
+    mat-toolbar, .page-content-viewport {
       padding: 0 16px;
     }
   }
 
+  &.medium, &.large {
+    mat-sidenav-content .page-content-viewport {
+      overflow: auto;
+    }
+  }
+
   &.large {
-    mat-toolbar, .page-content-wrapper {
+    mat-toolbar, .page-content-viewport {
       padding: 0 24px;
     }
   }

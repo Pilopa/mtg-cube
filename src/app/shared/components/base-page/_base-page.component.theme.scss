@@ -11,27 +11,27 @@
 
   app-base-page {
 
-    .page-content-wrapper, mat-sidenav.navigation-container {
+    .page-content-viewport, mat-sidenav.navigation-container {
       background-color: mat-color($primary, 50);
+    }
 
-      mat-nav-list {
+    mat-sidenav.navigation-container mat-nav-list {
 
-        a.mat-list-item.active-link {
-          background-color: mat-color($primary, darker) !important;
-          color: mat-color($primary, darker-contrast) !important;
-        }
-
-        a.mat-list-item:hover {
-          background-color: mat-color($primary, default) !important;
-          color: mat-color($primary, default-contrast) !important;
-        }
-
-        a.mat-list-item:focus {
-          background-color: rgba(white, 0);
-          color: mat-color($foreground, base);
-        }
-
+      a.mat-list-item.active-link {
+        background-color: mat-color($primary, darker) !important;
+        color: mat-color($primary, darker-contrast) !important;
       }
+
+      a.mat-list-item:hover {
+        background-color: mat-color($primary, default) !important;
+        color: mat-color($primary, default-contrast) !important;
+      }
+
+      a.mat-list-item:focus {
+        background-color: rgba(white, 0);
+        color: mat-color($foreground, base);
+      }
+
     }
 
   }

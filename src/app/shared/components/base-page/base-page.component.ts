@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding, OnDestroy, ChangeDetectorRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostBinding, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { Select } from '@ngxs/store';
@@ -16,6 +16,16 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasePageComponent implements OnInit, OnDestroy {
+
+
+  /**
+   * Sets whether page content is vertically centered,
+   * defaults to `false`.
+   *
+   * This can be used in conjunction with page layouts which do not require scrolling,
+   * such as a centered card which displays static content (e.g. a login form).
+   */
+  @Input() contentCentered = false;
 
   @HostBinding('class.small') isSmall: boolean;
   @HostBinding('class.medium') isMedium: boolean;
@@ -35,12 +45,6 @@ export class BasePageComponent implements OnInit, OnDestroy {
 
   @Select(LayoutState.getNavSections)
   navSections$: Observable<NavSection[]>;
-
-  @Select(LayoutState.getToolbarTemplate)
-  toolbarTemplate$: Observable<TemplateRef<any>>;
-
-  @Select(LayoutState.getSideContentTemplate)
-  sideContentTemplate$: Observable<TemplateRef<any>>;
 
   readonly sidenavMode$ = this.layoutSize$.pipe(
     map(size => size === LayoutSize.LARGE ? 'side' : 'over')

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.0"></a>
+# [0.1.0](https://github.com/pilopa/mtg-cube/compare/v0.0.3...v0.1.0) (2019-02-14)
+
+
+### Bug Fixes
+
+* adjust navigation link theming ([8c17c05](https://github.com/pilopa/mtg-cube/commit/8c17c05))
+* resolve router link theming ([31fcfd5](https://github.com/pilopa/mtg-cube/commit/31fcfd5))
+
+
+### Features
+
+* add simple navigation ([d66c5e0](https://github.com/pilopa/mtg-cube/commit/d66c5e0))
+* implement toolbar and side content templating ([52c39cd](https://github.com/pilopa/mtg-cube/commit/52c39cd))
+* integrate circleci ([9a570ed](https://github.com/pilopa/mtg-cube/commit/9a570ed))
+* update layout and theming ([d65b616](https://github.com/pilopa/mtg-cube/commit/d65b616))
+
+
+
 <a name="0.0.3"></a>
 ## [0.0.3](https://bitbucket.org/Pilopa/mtg-cube/compare/v0.0.2...v0.0.3) (2019-02-10)
 

@@ -1,6 +1,6 @@
 {
   "name": "mtg-cube",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "http-server -p 8080 -c-1 dist/mtg-cube",

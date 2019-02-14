@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/Pilopa/mtg-cube.svg?style=svg)](https://circleci.com/gh/Pilopa/mtg-cube)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
 # Disclaimer
 

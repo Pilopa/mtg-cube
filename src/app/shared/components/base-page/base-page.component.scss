@@ -81,6 +81,10 @@
   }
 
   &.medium, &.large {
+    mat-toolbar {
+      position: absolute !important;
+    }
+
     mat-sidenav-content .page-content-viewport {
       overflow: auto;
     }

@@ -38,13 +38,10 @@ jobs:
                     - package.json
                     - firebase.json
                     - .firebaserc
-    deploy:
+    deploy-dev:
         docker:
             - image: circleci/node:10.12
         working_directory: ~/mtg-cube
-        filters:
-              tags:
-                  only: /^v*/
         steps:
             - run:
                 name: Show current branch
@@ -55,17 +52,17 @@ jobs:
                 name: Install Firebase
                 command: npm install --save-dev firebase-tools
             - run:
-                name: Deploy Master to Firebase
-                command: firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
+                name: Deploy Master to Firebase Development Environment
+                command: ./node_modules/.bin/firebase deploy -P dev
 
 workflows:
     version: 2
     default_workflow:
       jobs:
       - build
-      - deploy:
+      - deploy-dev:
           requires:
               - build
           filters:
-              tags:
-                  only: /^v*/
+              branches:
+                  only: master

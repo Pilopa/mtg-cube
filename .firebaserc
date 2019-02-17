@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mtg-cube-dev"
+    "default": "mtg-cube-dev",
+    "dev": "mtg-cube-dev",
+    "prod": "mtg-cube"
   }
 }

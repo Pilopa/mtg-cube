@@ -10,3 +10,5 @@ MTG Cube is unofficial Fan Content permitted under the [Fan Content Policy](http
 This Open Source project is aimed to provide the community with a free tool to manage custom Magic: the Gathering Cubes.
 
 This project is still in the very early stages of development. If you would like to contribute, please refer to the open issues. If there is no relevant open issue, please create a new one and describe how you would like to help.
+
+If you need further information on how exactly the contribution process works, please look into the [Contribution Guidelines](https://github.com/Pilopa/mtg-cube/blob/master/CONTRIBUTING.md).

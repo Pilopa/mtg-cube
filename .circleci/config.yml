@@ -1,6 +1,6 @@
 version: 2
 jobs:
-    build:
+    build-dev:
         working_directory: ~/mtg-cube
         docker:
             - image: circleci/node:10.12-browsers
@@ -14,14 +14,18 @@ jobs:
                 command: pwd
             - restore_cache:
                 keys:
-                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "functions/package.json" }}
             - run:
                 name: Install dependencies
                 command: npm install
+            - run:
+                name: Install cloud function dependencies
+                command: npm install --prefix ./functions
             - save_cache:
-                key: v1-dependencies-{{ checksum "package.json" }}
+                key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "functions/package.json" }}
                 paths:
                     - node_modules
+                    - functions/node_modules
             - run:
                 name: Linting
                 command: npm run lint
@@ -30,7 +34,7 @@ jobs:
                 command: npm run test
             - run:
                 name: Building
-                command: npm run build
+                command: npm run build:dev
             - save_cache:
                 key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }}
                 paths:
@@ -59,7 +63,7 @@ workflows:
     version: 2
     default_workflow:
       jobs:
-      - build
+      - build-dev
       - deploy-dev:
           requires:
               - build

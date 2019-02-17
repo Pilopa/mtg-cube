@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "./node_modules/.bin/ng",
     "start": "http-server -p 8080 -c-1 dist/mtg-cube",
-    "build": "ng build --prod",
+    "build:prod": "ng build --prod",
+    "build:dev": "ng build --aot",
     "build-stats": "ng build --prod --stats-json",
     "bundle-report": "webpack-bundle-analyzer dist/mtg-cube/stats.json",
     "test": "ng test",

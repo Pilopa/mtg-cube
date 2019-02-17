@@ -11,16 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class CardIndexService {
 
-  private readonly _indexVersions$$ = new BehaviorSubject(undefined);
-  private readonly _indexVersions$ = this._indexVersions$$.pipe(
-    filter(index => index !== undefined)
-  );
-
-  constructor(private http: HttpClient) {
-    http.get<any>(`assets/indices/versions-${environment.indexVersionHash}.json`).subscribe(
-      value => this._indexVersions$$.next(value)
-    );
-  }
+  constructor(private http: HttpClient) { }
 
   getCardIndex(path: string) {
     const urlPath = path.replace(/[\.]/g, '/');

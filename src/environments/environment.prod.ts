@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  indexVersionHash: '91d56d60371a0984f6064b0f067c2f209082cbce',
-  cardVersionHash: '66a90e1c9a34b96621face84cc26e655cc3e7945',
+  indexVersionHash: 'd20392a814617006f73ae42cc3efd14977323c89',
+  cardVersionHash: 'd775e611a31e3b8243496b2e61cd61bfd10ed918',
   firebase: {
     apiKey: 'AIzaSyDOt-nC9JsrgBVfocvGY7vgGWoB-WNoKoE',
     authDomain: 'mtg-cube.firebaseapp.com',

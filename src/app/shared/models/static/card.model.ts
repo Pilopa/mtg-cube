@@ -1,5 +1,6 @@
 import { SetDefinitionModel } from '../set-definition.model';
-export interface CardModel {
+
+export interface StaticCardModel {
 
   /**
    * Name

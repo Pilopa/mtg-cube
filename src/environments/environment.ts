@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  indexVersionHash: 'd20392a814617006f73ae42cc3efd14977323c89',
+  indexVersionHash: '86bd566479ff14a60d4c5151ad34307e383f7663',
   cardVersionHash: 'd775e611a31e3b8243496b2e61cd61bfd10ed918',
   firebase: {
     apiKey: 'AIzaSyD3B5wKdnoB0yshJxbQv-_JFFNEEKiSpPk',

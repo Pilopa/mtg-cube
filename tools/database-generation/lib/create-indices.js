@@ -15,7 +15,7 @@ function parseAsArray(val) {
 function parseVal(val) {
     if (val === undefined || val === null || val === '') return undefined;
     val = parseInt(val);
-    return !isNaN(val) ? val : 0; 
+    return !isNaN(val) ? val : 0;
 }
 
 function getCardIndexValues(card, indexFn) {
@@ -56,10 +56,10 @@ function index(card, indexObject, indexBounds, { superTypeMap, typeMap, subTypeM
     createSimpleIndex(card, indexObject, 'types', card => card.types.map(t => typeMap[t.toLowerCase()]));
     createSimpleIndex(card, indexObject, 'supertypes', card => card.supertypes.map(t => superTypeMap[t.toLowerCase()]));
     createSimpleIndex(card, indexObject, 'subtypes', card => card.subtypes.map(t => subTypeMap[t.toLowerCase()]));
-    createNumericIndex(card, indexObject, 'power', card => card.power, indexBounds.power);
-    createNumericIndex(card, indexObject, 'toughness', card => card.toughness, indexBounds.toughness);
-    createNumericIndex(card, indexObject, 'loyalty', card => card.loyalty, indexBounds.loyalty);
-    createNumericIndex(card, indexObject, 'cmc', card => card.cmc, indexBounds.cmc);
+    createSimpleIndex(card, indexObject, 'power', card => [card.power]);
+    createSimpleIndex(card, indexObject, 'toughness', card => [card.toughness]);
+    createSimpleIndex(card, indexObject, 'loyalty', card => [card.loyalty]);
+    createSimpleIndex(card, indexObject, 'cmc', card => [card.cmc]);
 }
 
 /**
@@ -85,7 +85,7 @@ function getIndexBounds(cards, indexFn) {
             cardMin = cardValues;
             cardMax = cardValues;
         }
-        
+
         if (cardMin === undefined || cardMax === undefined) { continue; }
         if (min === undefined || min > cardMin) { min = cardMin; }
         if (max === undefined || max < cardMax) { max = cardMax; }
@@ -95,29 +95,6 @@ function getIndexBounds(cards, indexFn) {
         Math.max(0, min || 0),
         Math.max(0, max || 0)
     ];
-}
-
-function createNumericIndex(card, indexObject, indexId, indexFn, indexBounds) {
-    createPartNumericIndex(card, indexObject, indexId, indexFn, indexBounds, (indexValue, cardValue) => indexValue === cardValue, 0); // =
-    createPartNumericIndex(card, indexObject, indexId, indexFn, indexBounds, (indexValue, cardValue) => indexValue <= cardValue, 1); // >=
-    createPartNumericIndex(card, indexObject, indexId, indexFn, indexBounds, (indexValue, cardValue) => indexValue >= cardValue, 2); // <=
-}
-
-function createPartNumericIndex(card, indexObject, indexId, indexFn, indexBounds, comparator, comparatorId) {
-    const basePath = `${indexId}.${comparatorId}`;
-    let cardValues = getCardIndexValues(card, indexFn);
-    if (cardValues === undefined || cardValues === null || cardValues === '') { return; }
-    for (let indexValue = indexBounds[0]; indexValue <= indexBounds[1]; indexValue++) {
-        if (Array.isArray(cardValues)) {
-            for (const cardValue of cardValues) {
-                if (comparator(indexValue, cardValue)) {
-                    addToIndex(indexObject, `${basePath}.${indexValue}`, card.id);
-                }
-            }
-        } else if (comparator(indexValue, cardValues)) {
-            addToIndex(indexObject, `${basePath}.${indexValue}`, card.id);
-        }
-    }
 }
 
 function createSimpleIndex(card, indexObject, indexId, indexFn) {
@@ -147,12 +124,12 @@ function mapColorIndexValues(colors) {
             return colors;
         } else {
             return ['c'];
-        } 
+        }
     } else {
         return ['c'];
     }
 }
 
 function getColorIndices(card) {
-    return mapColorIndexValues(card.cost ? Object.keys(card.cost) : null);   
+    return mapColorIndexValues(card.cost ? Object.keys(card.cost) : null);
 }

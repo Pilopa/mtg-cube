@@ -143,7 +143,7 @@ async function run() {
         const elasticHash = hash(index);
         indexVersions[indexId] = elasticHash;
         logger.info(`Elasticlunr ${indexId} Index: ${byteCount(elasticJSON) / 1024 / 1024} MB`);
-        await outputJson(`./output/indices/${indexId}-${elasticHash}.json`, index);
+        await outputJson(`./output/indices/data/${elasticHash}.json`, index);
     };
 
     await Promise.all([

@@ -1,23 +1,28 @@
-import { NumericFilterOperator, CARD_FILTER_KEY_TYPE_MAP,
+import { CARD_FILTER_KEY_TYPE_MAP,
    CardFilterKey, CardFilterType,
    CardFilterModel, CategoricFilterModel,
    TextFilterModel, FILTER_PROPERTY_SEPARATOR,
-   NumericFilterModel} from '@app/shared/models/card-filter.model';
+   NumericFilterModel,
+   MAX_FILTER_VALUES,
+   FilterDefinition} from '@app/shared/models/card-filter.model';
+import { Index } from 'elasticlunr';
+import { pickBy } from 'lodash-es';
 
-/**
- * @param min The minimum value of the numeric filter
- * @param max The maximum value of the numeric filter
- *
- * @returns All possible values for the given filter operator
- */
-export function getNumericFilterOptions(operator: NumericFilterOperator, min: number, max: number): number[] {
-  switch (operator) {
-    case NumericFilterOperator.GREATER_OR_EQUAL:
-      return fromTo(min + 1, max);
-    case NumericFilterOperator.LESSER_OR_EQUAL:
-      return fromTo(0, max - 1);
-    case NumericFilterOperator.EQUALS:
-      return fromTo(0, max);
+export type CardIndexFunction = (path: string[]) => string[];
+export type TextSearchFunction = (query: string, requireFullMatch: boolean, allowPartialMatch) => string[];
+
+export function createTextSearchFunction(index: any): TextSearchFunction {
+  if (!index) {
+    const indexObject = Index.load(index);
+    return (query: string, requireFullMatch: boolean, allowPartialMatch) => {
+      const indexResult = indexObject.search(query, {
+        expand: !!allowPartialMatch,
+        bool: requireFullMatch ? 'AND' : 'OR'
+      });
+      return indexResult.map(value => (value.ref as string).toLowerCase());
+    };
+  } else {
+    return () => [];
   }
 }
 
@@ -62,6 +67,19 @@ export function isTextFilter(filter: CardFilterModel): filter is TextFilterModel
   return filter.type === CardFilterType.TEXT;
 }
 
+export function getNumericFilterPaths(key: CardFilterKey, filter: NumericFilterModel): string[][] {
+  const values = fromTo(filter.min || 0, filter.max || MAX_FILTER_VALUES[key] || 0);
+  return values.map(filterValue => getFilterPath(key, filterValue));
+}
+
+export function getFilterPath(key: CardFilterKey, value: number): string[] {
+  return [key, `${value}`];
+}
+
+export function getActiveFilters(filterObject: FilterDefinition): FilterDefinition {
+  return pickBy(filterObject, (value, key) => isActiveFilter(value));
+}
+
 export function string2Filter(str: string, type: CardFilterType): CardFilterModel {
   const parts = str.split(FILTER_PROPERTY_SEPARATOR);
   if (str.length < 2) { throw new Error('Invalid filter format'); }
@@ -69,21 +87,21 @@ export function string2Filter(str: string, type: CardFilterType): CardFilterMode
     case CardFilterType.CATEGORIC:
       return {
         type,
-        excludeUnselected: JSON.parse(parts[0].trim()),
-        selectedCategories: JSON.parse(`[${parts[1].trim()}]`).filter(value => !!value)
+        mustIncludeAll: JSON.parse(parts[0].trim()),
+        excludeUnselected: JSON.parse(parts[1].trim()),
+        selectedCategories: JSON.parse(`[${parts[2].trim()}]`).filter(value => !!value)
       } as CategoricFilterModel;
     case CardFilterType.NUMERIC:
       return {
         type,
-        operator: parts[0] as any as NumericFilterOperator,
-        min: JSON.parse(parts[1].trim()),
-        max: JSON.parse(parts[2].trim())
+        min: JSON.parse(parts[0].trim()),
+        max: JSON.parse(parts[1].trim())
       } as NumericFilterModel;
     case CardFilterType.TEXT:
       return {
         type,
-        textFilterType: parts[0],
-        and: JSON.parse(parts[1]),
+        requireFullMatch: JSON.parse(parts[0]),
+        allowPartialMatch: JSON.parse(parts[1]),
         value: parts[2]
       } as TextFilterModel;
     default:
@@ -96,11 +114,13 @@ export function filter2String(filter: CardFilterModel): string | null {
     return null;
   }
   if (isNumericFilter(filter)) {
-    return `${filter.operator}${FILTER_PROPERTY_SEPARATOR}${filter.min}${FILTER_PROPERTY_SEPARATOR}${filter.max}`;
+    return `${filter.min}${FILTER_PROPERTY_SEPARATOR}${filter.max}`;
   } else if (isCategoricFilter(filter)) {
-    return `${filter.excludeUnselected ? 1 : 0}${FILTER_PROPERTY_SEPARATOR}${JSON.stringify(filter.selectedCategories).slice(1, -1)}`;
+    // tslint:disable-next-line:max-line-length
+    return `${filter.mustIncludeAll ? 1 : 0}${FILTER_PROPERTY_SEPARATOR}${filter.excludeUnselected ? 1 : 0}${FILTER_PROPERTY_SEPARATOR}${JSON.stringify(filter.selectedCategories).slice(1, -1)}`;
   } else if (isTextFilter(filter)) {
-    return  `${filter.type}${FILTER_PROPERTY_SEPARATOR}${filter.and}${FILTER_PROPERTY_SEPARATOR}${filter.value}`;
+    // tslint:disable-next-line:max-line-length
+    return  `${filter.requireFullMatch ? 1 : 0}${FILTER_PROPERTY_SEPARATOR}${filter.allowPartialMatch ? 1 : 0}${FILTER_PROPERTY_SEPARATOR}${filter.value}`;
   } else {
     return null;
   }

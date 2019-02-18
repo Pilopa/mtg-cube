@@ -2,7 +2,10 @@ export class UpdateIndexVersions {
   static readonly type = '[CardIndex] UpdateIndexVersions';
 }
 
-export class LoadIndex {
-  static readonly type = '[CardIndex] LoadIndex';
-  constructor(public readonly path: string[]) {}
+export class LoadIndices {
+  static readonly type = '[CardIndex] LoadIndices';
+  public readonly paths: string[][];
+  constructor(...paths: string[][]) {
+    this.paths = paths;
+  }
 }

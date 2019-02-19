@@ -16,7 +16,7 @@ function createMaps(path) {
     const SET_CODE_MAP = {}, SET_NAME_MAP = {};
     const sortedSets = _.sortBy(allSets, 'releaseDate');
     sortedSets.forEach(setData => {
-        SET_CODE_MAP[setId] = setData.code.toLowerCase();
+        SET_CODE_MAP[setData.code.toLowerCase()] = setId;
         SET_NAME_MAP[setId] = setData.name.toLowerCase();
         setId++;
     });

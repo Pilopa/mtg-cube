@@ -9,7 +9,7 @@ import { getObjectPathValue } from '@app/shared/utils/object-path-value';
 import { CardIndexFunction, TextSearchFunction, createTextSearchFunction } from '@app/shared/utils/card-filter-utils';
 import { AppError } from '@app/shared/models/error.model';
 import { produce } from 'immer';
-import safeForkJoin from '@app/shared/utils/safeForkJoin';
+import safeForkJoin from '@app/shared/utils/safe-fork-join';
 
 export interface CardIndexStateModel {
   versions: CardIndexVersionMap | undefined;

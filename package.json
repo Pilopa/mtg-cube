@@ -58,11 +58,12 @@
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.13.0-rc.0",
     "@angular/cli": "^7.3.0",
-    "@angular/compiler-cli": "^8.0.0-beta.2",
+    "@angular/compiler-cli": "^8.0.0-beta.4",
     "@angular/language-service": "^8.0.0-beta.2",
     "@ngxs/schematics": "^0.0.1-alpha.5",
     "@types/jasmine": "^3.3.8",
     "@types/jasminewd2": "~2.0.3",
+    "@types/lodash-es": "^4.17.2",
     "@types/node": "^10.12.21",
     "codelyzer": "^4.5.0",
     "http-server": "^0.11.1",

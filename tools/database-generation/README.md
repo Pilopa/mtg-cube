@@ -24,6 +24,7 @@ The `output` directory will contain the generated card database.
 - `output/indices` contains the indices used for card search across the application. The `output/indices/versions-{index-version-hash}.json` file is treated as an entry point and links to individual index files.
 
 Copy or move the `output/cards` and `output/indices` directories into `/src/assets` for the application to gain access to the database files.
+Copy or move the `output/maps` directory into `/src/app/shared/models/static` for the application to gain access.
 
 Update the hashes in `/src/environments/environment.ts` with the ones in `output/versions.json`.
 

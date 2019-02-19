@@ -7,6 +7,7 @@ import { CARD_FILTER_KEY_TYPE_MAP,
    FilterDefinition} from '@app/shared/models/card-filter.model';
 import { Index } from 'elasticlunr';
 import { pickBy } from 'lodash-es';
+import { fromTo } from './from-to';
 
 export type CardIndexFunction = (path: string[]) => string[];
 export type TextSearchFunction = (query: string, requireFullMatch: boolean, allowPartialMatch) => string[];
@@ -27,19 +28,6 @@ export function createTextSearchFunction(index: any): TextSearchFunction {
 }
 
 /**
- * @returns An array containing all numbers from `from` to `to` (inclusive)
- */
-function fromTo(from: number, to: number): number[] {
-  const values: number[] = [];
-
-  for (let i = from; i <= to; i++) {
-    values.push(i);
-  }
-
-  return values;
-}
-
-/**
  * @returns The filter type for the given filter key
  */
 export function getCardFilterKeyType(key: CardFilterKey): CardFilterType | undefined {
@@ -49,22 +37,22 @@ export function getCardFilterKeyType(key: CardFilterKey): CardFilterType | undef
 /**
  * @returns Whether the given filter has enough information to filter by
  */
-export function isActiveFilter(filter: CardFilterModel) {
+export function isActiveFilter(filter?: CardFilterModel) {
   return (isNumericFilter(filter) && (filter.min > 0 || filter.max > 0 ))
   || ( isCategoricFilter(filter) && filter.selectedCategories.length > 0 )
   || ( isTextFilter(filter) && filter.value.length > 0 );
 }
 
-export function isNumericFilter(filter: CardFilterModel): filter is NumericFilterModel {
-  return filter.type === CardFilterType.NUMERIC;
+export function isNumericFilter(filter?: CardFilterModel): filter is NumericFilterModel {
+  return !!filter && filter.type === CardFilterType.NUMERIC;
 }
 
-export function isCategoricFilter(filter: CardFilterModel): filter is CategoricFilterModel {
-  return filter.type === CardFilterType.CATEGORIC;
+export function isCategoricFilter(filter?: CardFilterModel): filter is CategoricFilterModel {
+  return !!filter && filter.type === CardFilterType.CATEGORIC;
 }
 
-export function isTextFilter(filter: CardFilterModel): filter is TextFilterModel {
-  return filter.type === CardFilterType.TEXT;
+export function isTextFilter(filter?: CardFilterModel): filter is TextFilterModel {
+  return !!filter && filter.type === CardFilterType.TEXT;
 }
 
 export function getNumericFilterPaths(key: CardFilterKey, filter: NumericFilterModel): string[][] {

@@ -119,21 +119,11 @@ async function run() {
       this.saveDocument(false);
     });
 
-    const elasticIndexCombined = elasticlunr(function () {
-      this.addField('name');
-      this.addField('otherCard.text');
-      this.addField('text');
-      this.addField('otherCard.name');
-      this.setRef('id');
-      this.saveDocument(false);
-    });
-
     logger.info(`> Load Search Indices`);
 
     await Promise.all(mergedCardList.map(async card => {
         elasticIndexText.addDoc(card);
         elasticIndexName.addDoc(card);
-        elasticIndexCombined.addDoc(card);
     }));
 
     logger.info(`> Save Search Indices`);
@@ -148,8 +138,7 @@ async function run() {
 
     await Promise.all([
         saveLunrIndex(elasticIndexText, 'text'),
-        saveLunrIndex(elasticIndexName, 'name'),
-        saveLunrIndex(elasticIndexCombined, 'combined')
+        saveLunrIndex(elasticIndexName, 'name')
     ]);
 
     logger.info(`> Save Index Version Map`);

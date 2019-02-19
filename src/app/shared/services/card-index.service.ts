@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { FilterDefinition, CardFilterKey, CardFilterModel } from '@app/shared/models/card-filter.model';
+import { FilterDefinition, CardFilterKey, CardFilterModel, getFilterOptions } from '@app/shared/models/card-filter.model';
 import { of, Observable } from 'rxjs';
 import { map, switchMap, switchMapTo } from 'rxjs/operators';
 import { getActiveFilters, isNumericFilter, isTextFilter,
@@ -9,7 +9,7 @@ import { CardIndexState } from '@app/shared/state/card-index/card-index.state';
 import { union, intersectionWith } from 'lodash-es';
 import { AppError } from '@app/shared/models/error.model';
 import * as CardIndexActions from '../state/card-index/card-index.state.actions';
-import safeForkJoin from '@app/shared/utils/safeForkJoin';
+import safeForkJoin from '@app/shared/utils/safe-fork-join';
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +18,24 @@ export class CardIndexService {
 
   constructor(private store: Store) { }
 
-  public query$(filterObject: FilterDefinition) {
+  /**
+   * Asynchronously searches for cards with the given filters applied.
+   *
+   * @returns An array of card ids
+   */
+  public query$(filterObject: FilterDefinition): Observable<string[]> {
     return of(filterObject).pipe(
       map(filters => getActiveFilters(filters)),
       switchMap(filters => safeForkJoin(Object.entries(filters)
-                                          .map(([key, value]) => this.getIndexFilter(key as CardFilterKey, value)))),
-      map(indices => intersectionWith(...indices))
+                                          .map(([key, value]) => value ? this.getFilterValues(key as CardFilterKey, value) : of(null)))),
+      // Ignore filters with no input
+      map(indices => indices.filter(list => Array.isArray(list))),
+      // Combine all results by applying an intersection (AND), a card has to be in ALL lists to be a hit
+      map((indices: string[][]) => intersectionWith(...indices))
     );
   }
 
-  private getIndexFilter(key: CardFilterKey, filter: CardFilterModel): Observable<string[]> {
+  private getFilterValues(key: CardFilterKey, filter: CardFilterModel): Observable<string[]> {
     if (isNumericFilter(filter)) {
       const numericFilterPaths = getNumericFilterPaths(key, filter);
       return this.store.dispatch(new CardIndexActions.LoadIndices(...numericFilterPaths)).pipe(
@@ -37,11 +45,28 @@ export class CardIndexService {
       );
     } else if (isCategoricFilter(filter)) {
       const filterCategoryPaths = filter.selectedCategories.map(category => [key, category]);
-      return this.store.dispatch(new CardIndexActions.LoadIndices(...filterCategoryPaths)).pipe(
-        switchMapTo(this.store.select(CardIndexState.getIndexFn)),
-        map(indexFn => filterCategoryPaths.map(path => indexFn(path))),
-        map(indices => filter.mustIncludeAll ? intersectionWith(...indices) : union(...indices))
-      );
+
+      if (filter.excludeUnselected) {
+        const unselectedCategories = getFilterOptions(key).filter(category => !filter.selectedCategories.includes(category));
+        const unselectedCategoryPaths = unselectedCategories.map(category => [key, category]);
+
+        return this.store.dispatch(new CardIndexActions.LoadIndices(...filterCategoryPaths, ...unselectedCategoryPaths)).pipe(
+          switchMapTo(this.store.select(CardIndexState.getIndexFn)),
+          map(indexFn => {
+            const selectedIndices =  filterCategoryPaths.map(path => indexFn(path));
+            const unselectedIndices =  unselectedCategoryPaths.map(path => indexFn(path));
+            const selectedCardNames = filter.mustIncludeAll ? intersectionWith(...selectedIndices) : union(...selectedIndices);
+            const unselectedCardNames = union(...unselectedIndices);
+            return selectedCardNames.filter(cardName => !unselectedCardNames.includes(cardName));
+          })
+        );
+      } else {
+        return this.store.dispatch(new CardIndexActions.LoadIndices(...filterCategoryPaths)).pipe(
+          switchMapTo(this.store.select(CardIndexState.getIndexFn)),
+          map(indexFn => filterCategoryPaths.map(path => indexFn(path))),
+          map(indices => filter.mustIncludeAll ? intersectionWith(...indices) : union(...indices))
+        );
+      }
     } else if (isTextFilter(filter)) {
       if (key === CardFilterKey.NAME) {
         return this.store.dispatch(new CardIndexActions.LoadIndices([`${key}`])).pipe(

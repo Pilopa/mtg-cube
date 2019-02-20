@@ -62,7 +62,7 @@
 
   &.small {
     mat-toolbar, .page-content-viewport {
-      padding: 0 4px;
+      padding: 4px;
     }
 
     mat-sidenav-container {
@@ -76,7 +76,7 @@
 
   &.medium {
     mat-toolbar, .page-content-viewport {
-      padding: 0 16px;
+      padding: 16px;
     }
   }
 
@@ -92,7 +92,7 @@
 
   &.large {
     mat-toolbar, .page-content-viewport {
-      padding: 0 24px;
+      padding: 24px;
     }
   }
 

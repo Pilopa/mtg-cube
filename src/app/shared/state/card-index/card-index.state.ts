@@ -17,7 +17,7 @@ export interface CardIndexStateModel {
 }
 
 @State<CardIndexStateModel>({
-  name: 'cardIndex',
+  name: 'cardIndices',
   defaults: {
     versions: undefined,
     incides: {}

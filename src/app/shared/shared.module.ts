@@ -11,6 +11,7 @@ import { BasePageComponent } from './components/base-page/base-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CardIndexState } from './state/card-index/card-index.state';
+import { CardImageState } from './state/card-image/card-image.state';
 
 @NgModule({
   declarations: [ CardGridComponent, ErrorKeyPipe, BasePageComponent ],
@@ -22,7 +23,7 @@ import { CardIndexState } from './state/card-index/card-index.state';
   ],
   imports: [
     CommonModule,
-    NgxsModule.forFeature([LayoutState, CardIndexState]),
+    NgxsModule.forFeature([LayoutState, CardIndexState, CardImageState]),
     ScrollingModule,
     FlexLayoutModule,
     RouterModule,

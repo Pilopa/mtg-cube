@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { CubeCardModel } from '@app/shared/models/firestore/cubes/cube.model';
 import { Select } from '@ngxs/store';
 import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { Observable } from 'rxjs';
@@ -13,18 +12,6 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardGridComponent {
-
-  @Input() cards: CubeCardModel[] = (() => {
-    const result: CubeCardModel[] = [];
-
-    for (let i = 0; i < 150; i++) {
-      result.push({
-        id: `C${i}`
-      });
-    }
-
-    return result;
-  })();
 
   @Select(LayoutState.getLayoutSize)
   layoutSize$: Observable<LayoutSize>;

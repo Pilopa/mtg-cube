@@ -24,11 +24,6 @@ export const DEFAULT_NAVIGATION_SECTIONS: NavSection[] = [
         label: 'Login',
         icon: 'account_box',
         path: '/login'
-      },
-      {
-        label: 'Responsive Card List',
-        icon: 'view_module',
-        path: '/test'
       }
     ]
   }

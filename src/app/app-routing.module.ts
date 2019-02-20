@@ -7,10 +7,6 @@ const routes: Routes = [
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
-  },
-  {
-    path: 'test',
-    component: CardGridComponent
   }
 ];
 

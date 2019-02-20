@@ -59,7 +59,7 @@ export interface CardFilterModel {
 export interface NumericFilterModel extends CardFilterModel {
   type: CardFilterType.NUMERIC;
   min: number; // Defaults to 0
-  max: number; // Defaults to the maximum for the associated filter key
+  max: number; // Defaults to the maximum value for the associated filter key
 }
 
 export interface CategoricFilterModel extends CardFilterModel {

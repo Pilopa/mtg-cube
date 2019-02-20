@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, HostBinding, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostBinding,
+   OnDestroy, ChangeDetectorRef, Input, ViewEncapsulation } from '@angular/core';
 import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { Select } from '@ngxs/store';
@@ -13,7 +14,8 @@ import { ScrollDispatcher } from '@angular/cdk/scrolling';
   selector: 'app-base-page',
   templateUrl: './base-page.component.html',
   styleUrls: ['./base-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class BasePageComponent implements OnInit, OnDestroy {
 

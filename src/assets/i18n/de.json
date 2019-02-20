@@ -1,8 +1,8 @@
 {
   "auth": {
-    "popup-closed-by-user": "Anmeldeprozess abgerochen"
-  },
-  "Login": "Anmeldung",
-  "Logout": "Abmelden",
-  "Sign in with Google": "Mit Google-Konto anmelden"
+    "popup-closed-by-user": "Anmeldevorgang abgerochen",
+    "login": "Anmeldung",
+    "logout": "Abmelden",
+    "sign-in-with-google": "Mit Google-Konto anmelden"
+  }
 }

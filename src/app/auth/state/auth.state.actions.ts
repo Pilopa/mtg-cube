@@ -32,10 +32,6 @@ export class LoginSuccess {
   constructor(public readonly user: User | null) {}
 }
 
-export class UpdateAuthState {
-  static readonly type = '[Auth] UpdateAuthState';
-}
-
 export class UpdateAuthStateFailure {
   static readonly type = '[Auth] UpdateAuthState Failure';
   constructor(public readonly error: FirebaseError) {}

@@ -1,7 +1,7 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { auth, FirebaseError } from 'firebase/app';
-import { from, merge } from 'rxjs';
+import { from } from 'rxjs';
 import { catchError, delay, map, retryWhen, tap, mergeMap } from 'rxjs/operators';
 import { LoginType } from '../models/login-type.enum';
 import * as AuthActions from './auth.state.actions';
@@ -97,14 +97,6 @@ export class AuthState implements NgxsOnInit {
     });
   }
 
-  @Action(AuthActions.UpdateAuthState, { cancelUncompleted: true })
-  public updateAuthState({ dispatch }: StateContext<AuthStateModel>) {
-    return this.afAuth.authState.pipe(
-      mergeMap(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(transformFirebaseUser(activeUser)))),
-      retryWhen(errors => errors.pipe(delay(5000)))
-    );
-  }
-
   @Action(AuthActions.UpdateAuthStateSuccess)
   public updateAuthStateSuccess({ patchState }: StateContext<AuthStateModel>, { user }: AuthActions.UpdateAuthStateSuccess) {
     patchState({
@@ -152,7 +144,9 @@ export class AuthState implements NgxsOnInit {
   // Initialisation
 
   public ngxsOnInit({ dispatch }: StateContext<AuthState>) {
-    return dispatch(new AuthActions.UpdateAuthState());
+    return this.afAuth.authState.pipe(
+      retryWhen(errors => errors.pipe(delay(5000)))
+    ).subscribe(activeUser => dispatch(new AuthActions.UpdateAuthStateSuccess(transformFirebaseUser(activeUser))));
   }
 
 }

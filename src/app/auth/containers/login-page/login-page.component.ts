@@ -14,7 +14,7 @@ import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
   styleUrls: ['./login-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginPageComponent implements OnDestroy, OnInit {
+export class LoginPageComponent implements OnDestroy {
 
   @Select(AuthState.getActiveUser)
   readonly activeUser$: Observable<FirebaseUser | null | undefined>;
@@ -32,8 +32,6 @@ export class LoginPageComponent implements OnDestroy, OnInit {
   public readonly logout = () => new AuthActions.Logout()
 
   constructor(public readonly store: Store) { }
-
-  ngOnInit(): void {  }
 
   ngOnDestroy(): void {
     this.store.dispatch(new LayoutActions.ResetPageLayout());

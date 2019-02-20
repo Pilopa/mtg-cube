@@ -1,8 +1,8 @@
 {
   "auth": {
-    "popup-closed-by-user": "Login process cancelled"
-  },
-  "Login": "Login",
-  "Logout": "Logout",
-  "Sign in with Google": "Sign in with Google"
+    "popup-closed-by-user": "Login process cancelled",
+    "login": "Login",
+    "logout": "Logout",
+    "sign-in-with-google": "Sign in with Google"
+  }
 }

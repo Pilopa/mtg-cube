@@ -1,0 +1,10 @@
+<app-base-page>
+  <div toolbarContent fxFlex="1 1 100%" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+    <span>{{'card-search.card-search-page.title' | translate}}</span>
+    <span class="flex-spacer"></span>
+    <button mat-icon-button (click)="toggleSideContent()">
+      <mat-icon>tune</mat-icon>
+    </button>
+  </div>
+  <span sideContent>Side Content</span>
+</app-base-page>

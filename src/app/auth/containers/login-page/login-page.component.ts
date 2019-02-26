@@ -1,12 +1,11 @@
-import { Component, ChangeDetectionStrategy, OnDestroy, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { AuthState } from '../../state/auth.state';
-import { User as FirebaseUser } from 'firebase/app';
-import { Observable } from 'rxjs';
-import { Dispatch } from '@ngxs-labs/dispatch-decorator';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LoginType } from '@app/auth/models/login-type.enum';
+import { User } from '@app/auth/models/user.model';
+import { AuthState } from '@app/auth/state/auth.state';
 import * as AuthActions from '@app/auth/state/auth.state.actions';
-import { LoginType } from '../../models/login-type.enum';
-import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
+import { Dispatch } from '@ngxs-labs/dispatch-decorator';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -14,10 +13,10 @@ import * as LayoutActions from '@app/shared/state/layout/layout.state.actions';
   styleUrls: ['./login-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginPageComponent implements OnDestroy {
+export class LoginPageComponent {
 
   @Select(AuthState.getActiveUser)
-  readonly activeUser$: Observable<FirebaseUser | null | undefined>;
+  readonly activeUser$: Observable<User | null | undefined>;
 
   @Select(AuthState.getError)
   readonly error$: Observable<Error | null | undefined>;
@@ -30,11 +29,5 @@ export class LoginPageComponent implements OnDestroy {
 
   @Dispatch()
   public readonly logout = () => new AuthActions.Logout()
-
-  constructor(public readonly store: Store) { }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new LayoutActions.ResetPageLayout());
-  }
 
 }

@@ -14,7 +14,6 @@ import { SharedModule } from '@app/shared/shared.module';
   declarations: [LoginPageComponent],
   exports: [],
   imports: [
-    CommonModule,
     AuthRoutingModule,
     AngularFireAuthModule,
     SharedModule,

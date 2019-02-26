@@ -1,5 +1,6 @@
 <mat-grid-list [cols]="columnCount$ | async" [gutterSize]="gutterSize$ | async" rowHeight="63:88">
-  <mat-grid-tile *ngFor="let card of cards" class="card">
-    {{card | json}}
+  <mat-grid-tile *ngFor="let card of cards">
+    <ng-container *ngTemplateOutlet="cardTemplate; context: {$implicit: card}"
+    ></ng-container>
   </mat-grid-tile>
 </mat-grid-list>

@@ -21,7 +21,12 @@ export const DEFAULT_NAVIGATION_SECTIONS: NavSection[] = [
     title: 'Examples',
     children: [
       {
-        label: 'Login',
+        label: 'nav.card-search',
+        icon: 'image_search',
+        path: '/cards/search'
+      },
+      {
+        label: 'nav.login',
         icon: 'account_box',
         path: '/login'
       }
@@ -80,6 +85,20 @@ export class LayoutState implements NgxsOnInit {
   setNavVisible({ patchState }: StateContext<LayoutStateModel>, { flag }: LayoutActions.SetNavVisible) {
     patchState({
       navVisible: flag
+    });
+  }
+
+  @Action(LayoutActions.SetSideContentVisible)
+  setSideContentVisible({ patchState }: StateContext<LayoutStateModel>, { flag }: LayoutActions.SetSideContentVisible) {
+    patchState({
+      sideContentVisible: flag
+    });
+  }
+
+  @Action(LayoutActions.ToggleSideContentVisible)
+  toggleSideContentVisible({ patchState, getState }: StateContext<LayoutStateModel>, { }: LayoutActions.ToggleSideContentVisible) {
+    patchState({
+      sideContentVisible: !getState().sideContentVisible
     });
   }
 

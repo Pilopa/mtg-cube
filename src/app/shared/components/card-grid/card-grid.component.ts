@@ -1,9 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ContentChild, TemplateRef } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { Observable } from 'rxjs';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { map } from 'rxjs/operators';
+import { CubeCardsModel } from '../../models/firestore/cube-cards/cube-cards.model';
 
 @Component({
   selector: 'app-card-grid',
@@ -13,8 +14,12 @@ import { map } from 'rxjs/operators';
 })
 export class CardGridComponent {
 
+  @Input() cards: string[] | CubeCardsModel[];
+
   @Select(LayoutState.getLayoutSize)
   layoutSize$: Observable<LayoutSize>;
+
+  @ContentChild('[card-template]', {read: TemplateRef}) cardTemplate: TemplateRef<any>;
 
   readonly columnCount$ = this.layoutSize$.pipe(
     map(size => {

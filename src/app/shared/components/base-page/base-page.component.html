@@ -10,13 +10,16 @@
         (click)="hideNav()"
         *ngFor="let navItem of navSection.children">
           <mat-icon mat-list-icon>{{navItem.icon}}</mat-icon>
-          <span matLine>{{navItem.label}}</span>
+          <span matLine>{{navItem.label | translate}}</span>
         </a>
         <mat-divider *ngIf="!isLast"></mat-divider>
       </ng-container>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav position="end">
+  <mat-sidenav class="side-content-container" position="end"
+                [style.marginTop.px]="!(isSmall$ | async) ? 64 : 0"
+                [opened]="isSideContentVisible$ | async"
+                [mode]="sideContentMode$ | async" disableClose>
     <ng-content select="[sideContent]"></ng-content>
   </mat-sidenav>
   <mat-sidenav-content>

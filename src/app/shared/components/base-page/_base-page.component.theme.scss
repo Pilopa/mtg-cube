@@ -11,7 +11,7 @@
 
   app-base-page {
 
-    .page-content-viewport, mat-sidenav.navigation-container {
+    .page-content-viewport, mat-sidenav.navigation-container, mat-sidenav.side-content-container {
       background-color: mat-color($primary, 50);
     }
 

@@ -1,8 +1,23 @@
 {
   "auth": {
     "popup-closed-by-user": "Login process cancelled",
+    "login-page": {
+      "sub-title": "Login",
+      "logout-button": {
+        "text": "Logout"
+      },
+      "sign-in": {
+        "google": "Sign in with Google"
+      }
+    }
+  },
+  "nav": {
     "login": "Login",
-    "logout": "Logout",
-    "sign-in-with-google": "Sign in with Google"
+    "card-search": "Card Search"
+  },
+  "card-search": {
+    "card-search-page": {
+      "title": "Card Search"
+    }
   }
 }

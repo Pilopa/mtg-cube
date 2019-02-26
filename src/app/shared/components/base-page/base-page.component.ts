@@ -29,6 +29,11 @@ export class BasePageComponent implements OnInit, OnDestroy {
    */
   @Input() contentCentered = false;
 
+  /**
+   * Sets whether the page layout state should be reset once the user navigates away from the page.
+   */
+  @Input() resetOnDestroy = true;
+
   @HostBinding('class.small') isSmall: boolean;
   @HostBinding('class.medium') isMedium: boolean;
   @HostBinding('class.large') isLarge: boolean;
@@ -45,6 +50,9 @@ export class BasePageComponent implements OnInit, OnDestroy {
   @Select(LayoutState.isNavVisible)
   isNavVisible$: Observable<boolean>;
 
+  @Select(LayoutState.isSideContentVisible)
+  isSideContentVisible$: Observable<boolean>;
+
   @Select(LayoutState.getNavSections)
   navSections$: Observable<NavSection[]>;
 
@@ -56,6 +64,10 @@ export class BasePageComponent implements OnInit, OnDestroy {
     map(([large, visible]) => large || visible)
   );
 
+  readonly sideContentMode$ = this.layoutSize$.pipe(
+    map(size => [LayoutSize.MEDIUM, LayoutSize.LARGE].includes(size) ? 'side' : 'over')
+  );
+
   readonly destroy$ = new Subject();
 
   @Dispatch()
@@ -63,6 +75,9 @@ export class BasePageComponent implements OnInit, OnDestroy {
 
   @Dispatch()
   hideNav = () => new LayoutActions.SetNavVisible(false)
+
+  @Dispatch()
+  resetPageLayout = () => new LayoutActions.ResetPageLayout()
 
   constructor(private readonly change: ChangeDetectorRef,
               private readonly scrollDispatcher: ScrollDispatcher) { }
@@ -112,6 +127,9 @@ export class BasePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.resetOnDestroy) {
+      this.resetPageLayout();
+    }
     this.destroy$.next();
   }
 

@@ -6,12 +6,30 @@ app-base-page {
   display: flex;
   flex-direction: column;
 
+  mat-toolbar {
+    justify-content: center;
+    z-index: 2;
+    position: fixed;
+
+    .toolbar-content-wrapper {
+      width: 100%;
+      max-width: $MAX_CONTENT_WIDTH;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
   mat-sidenav-container {
     flex: 1;
     display: flex;
     flex-direction: column;
 
     mat-sidenav.navigation-container {
+      width: $SIDE_NAV_WIDTH;
+    }
+
+    mat-sidenav.side-content-container {
       min-width: 225px;
     }
 
@@ -21,21 +39,7 @@ app-base-page {
       display: flex;
       flex-direction: column;
 
-      mat-toolbar {
-        justify-content: center;
-        z-index: 2;
-
-        .toolbar-content-wrapper {
-          width: 100%;
-          max-width: $MAX_CONTENT_WIDTH;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-        }
-      }
-
       .page-content-viewport {
-        margin-top: 64px;
         flex: 1;
 
         .page-content-wrapper {
@@ -64,12 +68,12 @@ app-base-page {
       padding: 8px 4px;
     }
 
-    mat-toolbar {
-      position: fixed;
-    }
-
     mat-sidenav-container {
       flex: 1 0 auto;
+
+      mat-sidenav.side-content-container {
+        width: 100%;
+      }
 
       mat-sidenav-content .page-content-viewport {
         margin-top: 56px;
@@ -84,16 +88,17 @@ app-base-page {
   }
 
   &.medium, &.large {
-    mat-toolbar {
-      position: absolute;
-    }
-
     mat-sidenav-content .page-content-viewport {
       overflow-y: auto;
+      margin-top: 64px;
     }
   }
 
   &.large {
+    mat-toolbar {
+      width: $TOOL_BAR_WIDTH_LARGE;
+    }
+
     mat-toolbar, .page-content-viewport {
       padding: 24px;
     }

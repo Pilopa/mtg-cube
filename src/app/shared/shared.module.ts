@@ -19,10 +19,13 @@ import { CardImageState } from './state/card-image/card-image.state';
     TranslateModule,
     CardGridComponent,
     BasePageComponent,
-    ErrorKeyPipe
+    ErrorKeyPipe,
+    CommonModule,
+    FlexLayoutModule
   ],
   imports: [
     CommonModule,
+    TranslateModule,
     NgxsModule.forFeature([LayoutState, CardIndexState, CardImageState]),
     ScrollingModule,
     FlexLayoutModule,

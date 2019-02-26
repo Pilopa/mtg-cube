@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CardGridComponent } from '@app/shared/components/card-grid/card-grid.component';
 
 const routes: Routes = [
+  {
+    path: 'cards/search',
+    loadChildren: './card-search/card-search.module#CardSearchModule'
+  },
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
-  }
+  },
 ];
 
 @NgModule({

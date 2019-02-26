@@ -2,7 +2,7 @@
 
   <mat-card>
     <mat-card-header fxLayout="row" fxLayoutGap="5px">
-      <mat-card-title translate>auth.login</mat-card-title>
+      <mat-card-title>{{'auth.login-page.sub-title' | translate}}</mat-card-title>
     </mat-card-header>
 
     <mat-card-content class="login-form-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
@@ -10,13 +10,13 @@
 
         <mat-icon>account_circle</mat-icon><span>{{user.username}}</span>
         <mat-divider></mat-divider>
-        <button mat-button color="accent" [disabled]="pendingRequest$ | async" (click)="logout()">{{'auth.logout' | translate}}</button>
+        <button mat-button color="accent" [disabled]="pendingRequest$ | async" (click)="logout()">{{'auth.login-page.logout-button.text' | translate}}</button>
 
       </ng-container>
 
       <ng-template #showLogin>
 
-        <button mat-button class="google" [disabled]="pendingRequest$ | async" (click)="loginGoogle()">{{'auth.sign-in-with-google' | translate}}</button>
+        <button mat-button class="google" [disabled]="pendingRequest$ | async" (click)="loginGoogle()">{{'auth.login-page.sign-in.google' | translate}}</button>
 
         <ng-container *ngIf="error$ | async as error">
           <mat-divider></mat-divider>

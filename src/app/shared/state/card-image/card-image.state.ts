@@ -5,7 +5,7 @@ import * as CardImageActions from './card-image.state.actions';
 import { Observable, throwError, of, from, concat } from 'rxjs';
 import { getNextSize } from '@app/shared/utils/card-image-utils';
 import { tap, catchError, switchMap, first, shareReplay, filter, switchMapTo } from 'rxjs/operators';
-import { blob2ImageUrl } from '../../utils/blob-to-image';
+import { blob2ImageUrl } from '../../utils/blob-to-image-url';
 import produce from 'immer';
 import { AppError } from '../../models/error.model';
 
@@ -26,7 +26,7 @@ export class CardImageState {
   }
 
   @Selector()
-  public static getCardImageFn(state: CardImageMap): getImageFn {
+  public static getCardImageFn(state: CardImageMap): GetImageFn {
     return (multiverseId, size) => {
       const sizesToTry = CardImageState.getSizesToTry(size);
       const cardImages = state[multiverseId];
@@ -139,4 +139,4 @@ export class CardImageState {
  * null: no image for that multiverseid available
  * undefined: image not yet loaded
  */
-export type getImageFn = (multiverseId: number, size: CardImageSize) => string | null | undefined;
+export type GetImageFn = (multiverseId: number, size: CardImageSize) => string | null | undefined;

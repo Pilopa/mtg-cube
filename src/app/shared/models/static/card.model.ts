@@ -85,3 +85,11 @@ export interface MinifiedCardModel {
   o: Partial<MinifiedCardModel> | undefined;
 
 }
+
+export interface CardMapModel {
+  [cardHash: string]: MinifiedCardModel;
+}
+
+export interface CardVersionMapModel {
+  [cardId: string]: string;
+}

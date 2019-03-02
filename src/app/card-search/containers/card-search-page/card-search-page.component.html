@@ -7,4 +7,9 @@
     </button>
   </div>
   <span sideContent>Side Content</span>
+  <app-card-grid [cards]="cards$ | async">
+    <ng-template cardTemplate let-card>
+      <div [appCardImage]=""></div>
+    </ng-template>
+  </app-card-grid>
 </app-base-page>

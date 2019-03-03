@@ -75,7 +75,7 @@ export class CardImageState {
     if (sizesToTry.length) {
       // Define function to load one individual image size
       const load = sizeToLoad => {
-        const observable = of().pipe(
+        const observable = of(true).pipe(
           // Set loading state
           tap(_ => setState(produce(getState(), draft => this.setImageValue(draft, multiverseId, sizeToLoad, observable)))),
           // Start image load request

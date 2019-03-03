@@ -32,13 +32,16 @@ export class CardDataState {
   }
 
   @Selector([CardDataState.getCardVersions])
-  private static getCardHashFn(_, indexVersions: CardVersionMapModel): CardDataHashFunction {
-    return (cardId: string) => indexVersions[cardId] || '';
+  static getCardHashFn(_, indexVersions: CardVersionMapModel): CardDataHashFunction {
+    return (cardId: string) => indexVersions[cardId];
   }
 
   @Selector([CardDataState.getCardData, CardDataState.getCardHashFn])
   static getCardDataFn(_, cardData: CardMapModel, fn: CardDataHashFunction): CardDataFunction {
-    return (cardId: string) => cardData[fn(cardId)];
+    return (cardId: string) =>  {
+      const cardHash = fn(cardId);
+      return typeof cardHash === 'string' ? cardData[cardHash] : undefined;
+    };
   }
 
   constructor(private readonly http: HttpClient) {}
@@ -54,8 +57,12 @@ export class CardDataState {
     );
   }
 
-  @Action(CardDataActions.LoadCardData, { cancelUncompleted: true })
+  @Action(CardDataActions.LoadCardData)
   public loadCardData({ setState, getState }: StateContext<CardDataStateModel>, { hash }: CardDataActions.LoadCardData) {
+    if (getState().data[hash]) {
+      return;
+    }
+
     return from(this.http.get<MinifiedCardModel>(`assets/cards/singles/${hash}.json`)).pipe(
       tap(cardData => setState(produce(getState(), draft => {
         draft.data[hash] = cardData;
@@ -65,5 +72,5 @@ export class CardDataState {
 
 }
 
-export type CardDataHashFunction = (cardId: string) => string;
+export type CardDataHashFunction = (cardId: string) => string | undefined;
 export type CardDataFunction = (cardId: string) => MinifiedCardModel | undefined;

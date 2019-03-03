@@ -4,8 +4,7 @@ import { LayoutState } from '@app/shared/state/layout/layout.state';
 import { Observable } from 'rxjs';
 import { LayoutSize } from '@app/shared/models/layout-size.model';
 import { map } from 'rxjs/operators';
-import { CubeCardsModel } from '../../models/firestore/cube-cards/cube-cards.model';
-import { MinifiedCardModel } from '../../models/static/card.model';
+import { CubeCardModel, CubeCardInstanceModel } from '../../models/firestore/cube-cards/cube-cards.model';
 
 @Component({
   selector: 'app-card-grid',
@@ -15,12 +14,12 @@ import { MinifiedCardModel } from '../../models/static/card.model';
 })
 export class CardGridComponent {
 
-  @Input() cards: MinifiedCardModel[] | CubeCardsModel[];
+  @Input() cards: CubeCardModel[] | CubeCardInstanceModel[];
 
   @Select(LayoutState.getLayoutSize)
   layoutSize$: Observable<LayoutSize>;
 
-  @ContentChild('[cardTemplate]', {read: TemplateRef}) cardTemplate: TemplateRef<any>;
+  @ContentChild(TemplateRef) cardTemplate: TemplateRef<any>;
 
   readonly columnCount$ = this.layoutSize$.pipe(
     map(size => {

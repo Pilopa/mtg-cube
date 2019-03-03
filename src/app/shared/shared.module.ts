@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { CardIndexState } from './state/card-index/card-index.state';
 import { CardImageState } from './state/card-image/card-image.state';
 import { CardImageDirective } from './directives/card-image.directive';
+import { CardDataState } from './state/card-data/card-data.state';
 
 @NgModule({
   declarations: [ CardGridComponent, ErrorKeyPipe, BasePageComponent, CardImageDirective ],
@@ -28,7 +29,7 @@ import { CardImageDirective } from './directives/card-image.directive';
   imports: [
     CommonModule,
     TranslateModule,
-    NgxsModule.forFeature([LayoutState, CardIndexState, CardImageState]),
+    NgxsModule.forFeature([LayoutState, CardIndexState, CardImageState, CardDataState]),
     ScrollingModule,
     FlexLayoutModule,
     RouterModule,
